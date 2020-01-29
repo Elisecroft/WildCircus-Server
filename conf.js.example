@@ -1,0 +1,11 @@
+const mysql = require('mysql');
+
+// Setup database connection
+const connection = mysql.createConnection({
+    host: 'localhost', // db server address
+    user: 'YOUR_USER_DB_NAME', // db user's name
+    password: 'YOUR_PASSWORD', // db user's password
+    database: 'wildcircus', // db name
+});
+
+module.exports = connection;
