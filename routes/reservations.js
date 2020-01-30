@@ -27,13 +27,67 @@ router.post('/', (req, res) => {
 });
 
 // get
-router.get('/:reservationId', (req, res) => {
-  const reservationId = req.params.reservationId;
-  connection.query('SELECT * FROM reservation WHERE id = ?', [reservationId], (err, result) => {
+// router.get('/:reservationId', (req, res) => {
+//   const reservationId = req.params.reservationId;
+//   connection.query('SELECT * FROM reservation WHERE id = ?', [reservationId], (err, result) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       res.status(200).send(result);
+//     }
+//   });
+// });
+
+// get with userId
+router.get('/:userId', (req, res) => {
+  const userId = req.params.userId;
+  // improve this part
+  // get id of all reservation of user
+  connection.query('SELECT DISTINCT reservation.id FROM reservation INNER JOIN user ON reservation.user_id = ?', [userId], (err, results) => {
     if (err) {
       console.log(err);
+      res.status(500).send('Error when get the reservation');
     } else {
-      res.status(200).send(result);
+      // then get all infos for each reservation
+      if (results.length > 0) {
+        const getreservation = new Promise((resolve) => {
+          let allInfos = [];
+          let indexCount = 0;
+          results.map((reserv) => {
+            const sendResult = () => {
+              // if map is completed => resolve
+              if (indexCount === results.length) {
+                resolve(allInfos);
+              }
+            };
+            connection.query(`SELECT representation.city,
+            representation.date,
+            representation.price,
+            reservation.places
+            FROM representation
+            INNER JOIN reservation
+            ON representation.id = reservation.representation_id
+            WHERE reservation.id = '${reserv.id}'`, (error, result) => {
+              if (error) {
+                console.log(error);
+                indexCount += 1;
+                sendResult();
+                // res.status(500).send('Error when get the informations');
+              } else {
+                allInfos = [...allInfos, { city: result[0].city, date: result[0].date, price: result[0].price, places: result[0].places }];
+                indexCount += 1;
+                sendResult();
+              }
+            })
+          });
+        });
+
+        getreservation.then((actualInfos) => {
+          res.status(200).send(actualInfos);
+        });
+      } else {
+        res.status(200).send(result);
+      }
     }
   });
 });

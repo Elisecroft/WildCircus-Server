@@ -1,5 +1,6 @@
 const express = require('express');
-const sha512 = require('js-sha512');
+const connection = require('../conf');
+const sha256 = require('sha256');
 const jwt = require('jsonwebtoken');
 const key = require('../key');
 const checkToken = require ('../middlewares/checkToken');
@@ -12,7 +13,7 @@ router.post('/', (req, res) => {
   const accessToken = jwt.sign(user, key); // create token with properties
 
   // search user
-  connection.query('SELECT * FROM user WHERE email = ? AND password = ?', [email, password], (err, result) => {
+  connection.query('SELECT * FROM user WHERE email = ? AND password = ?', [email, sha256(password)], (err, result) => {
     if (err) {
       console.log(err);
     } else {
