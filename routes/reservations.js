@@ -26,18 +26,6 @@ router.post('/', (req, res) => {
   }
 });
 
-// get
-// router.get('/:reservationId', (req, res) => {
-//   const reservationId = req.params.reservationId;
-//   connection.query('SELECT * FROM reservation WHERE id = ?', [reservationId], (err, result) => {
-//     if (err) {
-//       console.log(err);
-//     } else {
-//       res.status(200).send(result);
-//     }
-//   });
-// });
-
 // get with userId
 router.get('/:userId', (req, res) => {
   const userId = req.params.userId;
@@ -88,26 +76,6 @@ router.get('/:userId', (req, res) => {
       } else {
         res.status(200).send(results);
       }
-    }
-  });
-});
-
-// put
-router.put('/:reservationId', (req, res) => {
-  const reservationId = req.params.reservationId;
-  const data = req.body; // reservation infos sent
-  connection.query('UPDATE reservation SET ? WHERE id = ?', [data, reservationId], (err, result) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send('Error when update reservation');
-    } else {
-      connection.query('SELECT * FROM reservation WHERE id = ?', [reservationId], (err, result) => {
-        if (err) {
-          console.log(err);
-        } else {
-          res.status(200).send(result);
-        }
-      });
     }
   });
 });

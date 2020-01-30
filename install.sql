@@ -16,7 +16,6 @@ CREATE TABLE representation (
   id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   city VARCHAR(255) NOT NULL,
   date DATE NOT NULL,
-  availablePlaces INT NOT NULL,
   price FLOAT NOT NULL,
   photo TEXT,
   coordinates VARCHAR(255)

@@ -4,11 +4,11 @@ const router = express.Router();
 
 // post
 router.post('/', (req, res) => {
-  const { city, date, availablePlaces, price, photo, coordinates } = req.body; // representation infos sent
-  if (!city || !date || !availablePlaces || !price) {
+  const { city, date, price, photo, coordinates } = req.body; // representation infos sent
+  if (!city || !date || !price) {
     res.status(400).json('missing fields');
   } else {
-    data = { city, date, availablePlaces, price, photo, coordinates };
+    data = { city, date, price, photo, coordinates };
     connection.query('INSERT INTO representation SET ?', data, (error, result) => {
       if (error) {
         console.log(error);
@@ -22,7 +22,7 @@ router.post('/', (req, res) => {
           }
         });
       }
-    })
+    });
   }
 });
 
@@ -36,22 +36,11 @@ router.get('/', (req, res) => {
   });
 });
 
-// get
-// router.get('/:representationId', (req, res) => {
-//   const representationId = req.params.representationId;
-//   connection.query('SELECT * FROM representation WHERE id = ?', [representationId], (err, result) => {
-//     if (err) {
-//       console.log(err);
-//     } else {
-//       res.status(200).send(result);
-//     }
-//   });
-// });
-
 // put
 router.put('/:representationId', (req, res) => {
   const representationId = req.params.representationId;
-  const data = req.body; // representation infos sent
+  const { city, date, price, photo, coordinates } = req.body;
+  data = { city, date, price, photo, coordinates };
   connection.query('UPDATE representation SET ? WHERE id = ?', [data, representationId], (err, result) => {
     if (err) {
       console.log(err);
