@@ -74,7 +74,7 @@ router.get('/:userId', (req, res) => {
                 sendResult();
                 // res.status(500).send('Error when get the informations');
               } else {
-                allInfos = [...allInfos, { city: result[0].city, date: result[0].date, price: result[0].price, places: result[0].places }];
+                allInfos = [...allInfos, { city: result[0].city, date: result[0].date, price: result[0].price, places: result[0].places, reservation_id: reserv.id }];
                 indexCount += 1;
                 sendResult();
               }
@@ -86,7 +86,7 @@ router.get('/:userId', (req, res) => {
           res.status(200).send(actualInfos);
         });
       } else {
-        res.status(200).send(result);
+        res.status(200).send(results);
       }
     }
   });

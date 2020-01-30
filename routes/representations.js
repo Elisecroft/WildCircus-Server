@@ -26,10 +26,8 @@ router.post('/', (req, res) => {
   }
 });
 
-// get
-router.get('/:representationId', (req, res) => {
-  const representationId = req.params.representationId;
-  connection.query('SELECT * FROM representation WHERE id = ?', [representationId], (err, result) => {
+router.get('/', (req, res) => {
+  connection.query('SELECT * FROM representation', (err, result) => {
     if (err) {
       console.log(err);
     } else {
@@ -37,6 +35,18 @@ router.get('/:representationId', (req, res) => {
     }
   });
 });
+
+// get
+// router.get('/:representationId', (req, res) => {
+//   const representationId = req.params.representationId;
+//   connection.query('SELECT * FROM representation WHERE id = ?', [representationId], (err, result) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       res.status(200).send(result);
+//     }
+//   });
+// });
 
 // put
 router.put('/:representationId', (req, res) => {
