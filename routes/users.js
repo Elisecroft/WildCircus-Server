@@ -3,9 +3,12 @@ const connection = require('../conf');
 const router = express.Router();
 const sha256 = require('sha256');
 
+const whiteList = ["admin@gmail.com"]; // admin email list
+
 // create an user
 router.post('/', (req, res) => {
   const { email, password } = req.body; // users infos sent
+  let data;
   if (!email || !password) {
     res.status(400).json('missing fields');
   } else {
@@ -17,7 +20,11 @@ router.post('/', (req, res) => {
         if (rows.length > 0) {
           res.status(400).send('Email already use');
         } else {
-          data = { email, password: sha256(password), isAdmin: false };
+          if (whiteList.includes(req.body.email)) {
+            data = { email, password: sha256(password), isAdmin: 1 }; // create admin account
+          } else {
+            data = { email, password: sha256(password), isAdmin: 0 };
+          }
           connection.query('INSERT INTO user SET ?', data, (error, result) => {
             if (error) {
               console.log(error);
