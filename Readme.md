@@ -21,6 +21,10 @@ You also need to install [MySQL](https://www.mysql.com/).
 Runs the server.  
 You can made actions with [Postman](https://www.getpostman.com/) for example at http://localhost:8000
 
+##### Configure SQL
+
+Add install.sql into your mysql, then complete the config.js file like config.js.example.
+
 ##### Setup a key
 
 Replace key.js.example file by key.js. You can generate a key [here](https://8gwifi.org/sshfunctions.jsp).
