@@ -4,11 +4,11 @@ const router = express.Router();
 
 // post
 router.post('/', (req, res) => {
-  const { city, date, price, photo, coordinates } = req.body; // representation infos sent
+  const { city, date, price, photo } = req.body; // representation infos sent
   if (!city || !date || !price) {
     res.status(400).json('missing fields');
   } else {
-    data = { city, date, price, photo, coordinates };
+    data = { city, date, price, photo };
     connection.query('INSERT INTO representation SET ?', data, (error, result) => {
       if (error) {
         console.log(error);
@@ -39,8 +39,8 @@ router.get('/', (req, res) => {
 // put
 router.put('/:representationId', (req, res) => {
   const representationId = req.params.representationId;
-  const { city, date, price, photo, coordinates } = req.body;
-  data = { city, date, price, photo, coordinates };
+  const { city, date, price, photo } = req.body;
+  data = { city, date, price, photo };
   connection.query('UPDATE representation SET ? WHERE id = ?', [data, representationId], (err, result) => {
     if (err) {
       console.log(err);
