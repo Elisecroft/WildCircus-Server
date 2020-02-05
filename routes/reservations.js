@@ -51,7 +51,8 @@ router.get('/:userId', (req, res) => {
             connection.query(`SELECT representation.city,
             representation.date,
             representation.price,
-            reservation.places
+            reservation.places,
+            representation.photo
             FROM representation
             INNER JOIN reservation
             ON representation.id = reservation.representation_id
@@ -62,7 +63,7 @@ router.get('/:userId', (req, res) => {
                 sendResult();
                 // res.status(500).send('Error when get the informations');
               } else {
-                allInfos = [...allInfos, { city: result[0].city, date: result[0].date, price: result[0].price, places: result[0].places, reservation_id: reserv.id }];
+                allInfos = [...allInfos, { city: result[0].city, date: result[0].date, price: result[0].price, places: result[0].places, reservation_id: reserv.id, photo: result[0].photo }];
                 indexCount += 1;
                 sendResult();
               }
